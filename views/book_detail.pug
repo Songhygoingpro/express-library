@@ -1,0 +1,33 @@
+extends layout
+
+block content
+  h1 Book: #{book.title}
+  p Author: 
+    a(href=book.author.url) #{book.author.name}
+  p Summary: #{book.summary}
+  p ISBN: #{book.isbn}
+
+  if book.genre.length
+    p Genres:
+    ul
+      each genre in book.genre
+        li 
+          a(href=genre.url) #{genre.name}
+
+  h2 Book Copies
+  if book_instances.length
+    ul
+      each instance in book_instances
+        li
+          span #{instance.status} 
+          if instance.status != 'Available'
+            span | (Due: #{instance.due_back})
+          else
+            a(href=instance.url) View
+  else
+    p No copies available
+  hr
+  p
+    a(href=book.url+'/delete') Delete Book
+  p
+    a(href=book.url+'/update') Update Book
